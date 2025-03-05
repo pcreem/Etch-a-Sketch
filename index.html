@@ -2,14 +2,21 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sketch grid</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sketch Grid</title>
   <style>
     * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
+    }
+
+    .nav {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
     }
 
     .container {
@@ -21,6 +28,7 @@
       flex-wrap: wrap;
       border: 1px solid #ccc;
       margin: 20px auto;
+      padding: 20px 0;
     }
 
     .grid-item {
@@ -29,50 +37,62 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+    }
+
+    .grid-item:hover {
+      background-color: #3498db;
     }
   </style>
 </head>
 
 <body>
+  <div class="nav">
+    <label for="item">Enter an even number:</label>
+    <input type="text" name="item" id="item" />
+    <button id="enterNumber">Enter</button>
+  </div>
+
   <div class="container"></div>
 
   <script>
+    const input = document.getElementById("item");
+    const btn = document.getElementById("enterNumber");
     const container = document.querySelector(".container");
 
+    btn.addEventListener("click", function () {
+      const value = parseInt(input.value, 10);
+
+      if (!isNaN(value) && value > 0 && value % 2 === 0 && value <= 100) {
+        generateGrid(value);
+      } else {
+        console.log("The value must be a positive, even number.");
+      }
+
+      input.value = "";
+      input.focus();
+    });
+
     function generateGrid(n) {
-      // Remove any previous grid items, if necessary
+      // Remove any previous grid items
       container.innerHTML = "";
 
       // Get the container's width using offsetWidth
       const containerWidth = container.offsetWidth;
-      // Calculate the total gap in one row.
-      // If there are n items, there will be (n - 1) gaps.
-      // For our case "gap: 10px" is applied between items.
+      // Gap between items (in pixels)
       const gapSize = 10;
+      // Calculate total gap width per row (n-1 gaps)
       const totalGapWidth = gapSize * (n - 1);
-      // Calculate the width for each grid item.
+      // Calculate the width for each grid item
       const itemWidth = (containerWidth - totalGapWidth) / (n + 1);
 
-      // Create grid items (n x n grid)
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-          const gridItem = document.createElement("div");
-          gridItem.classList.add("grid-item");
-          gridItem.style.width = `${itemWidth}px`;
-          gridItem.style.height = `${itemWidth}px`; // Use same value for a square shape
-          gridItem.textContent = `${i},${j}`;
-          container.appendChild(gridItem);
-        }
+      // Create grid items for an n x n grid
+      for (let i = 0; i < n * n; i++) {
+        const gridItem = document.createElement("div");
+        gridItem.classList.add("grid-item");
+        gridItem.style.width = `${itemWidth}px`;
+        gridItem.style.height = `${itemWidth}px`; // make square cells
+        container.appendChild(gridItem);
       }
-    }
-
-    // Example usage: create an 8 x 8 grid when n % 2 === 0 (choose any even number)
-    const n = 16;
-    if (n % 2 === 0) {
-      generateGrid(n);
-    } else {
-      console.log("n is not even. Please provide an even number.");
     }
   </script>
 </body>
