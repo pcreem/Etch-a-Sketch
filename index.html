@@ -38,10 +38,6 @@
       align-items: center;
       justify-content: center;
     }
-
-    .grid-item:hover {
-      background-color: #3498db;
-    }
   </style>
 </head>
 
@@ -59,6 +55,7 @@
     const btn = document.getElementById("enterNumber");
     const container = document.querySelector(".container");
 
+
     btn.addEventListener("click", function () {
       const value = parseInt(input.value, 10);
 
@@ -72,25 +69,35 @@
       input.focus();
     });
 
+
+
     function generateGrid(n) {
-      // Remove any previous grid items
       container.innerHTML = "";
 
-      // Get the container's width using offsetWidth
       const containerWidth = container.offsetWidth;
-      // Gap between items (in pixels)
       const gapSize = 10;
-      // Calculate total gap width per row (n-1 gaps)
       const totalGapWidth = gapSize * (n - 1);
-      // Calculate the width for each grid item
       const itemWidth = (containerWidth - totalGapWidth) / (n + 1);
+      let opacity = 1;
 
-      // Create grid items for an n x n grid
       for (let i = 0; i < n * n; i++) {
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
         gridItem.style.width = `${itemWidth}px`;
         gridItem.style.height = `${itemWidth}px`; // make square cells
+
+        gridItem.addEventListener("mouseover", () => {
+
+          const random = () => Math.floor(Math.random() * 256);
+
+          gridItem.style.backgroundColor = `rgba(${random()}, ${random()}, ${random()}, ${opacity})`;
+          if (opacity > 0) {
+            opacity = Math.max(0, opacity - 0.1);
+          }
+          console.log(opacity);
+
+        });
+
         container.appendChild(gridItem);
       }
     }
