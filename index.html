@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sketch grid</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 700px;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      border: 1px solid #ccc;
+      margin: 20px auto;
+    }
+
+    .grid-item {
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container"></div>
+
+  <script>
+    const container = document.querySelector(".container");
+
+    function generateGrid(n) {
+      // Remove any previous grid items, if necessary
+      container.innerHTML = "";
+
+      // Get the container's width using offsetWidth
+      const containerWidth = container.offsetWidth;
+      // Calculate the total gap in one row.
+      // If there are n items, there will be (n - 1) gaps.
+      // For our case "gap: 10px" is applied between items.
+      const gapSize = 10;
+      const totalGapWidth = gapSize * (n - 1);
+      // Calculate the width for each grid item.
+      const itemWidth = (containerWidth - totalGapWidth) / (n + 1);
+
+      // Create grid items (n x n grid)
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          const gridItem = document.createElement("div");
+          gridItem.classList.add("grid-item");
+          gridItem.style.width = `${itemWidth}px`;
+          gridItem.style.height = `${itemWidth}px`; // Use same value for a square shape
+          gridItem.textContent = `${i},${j}`;
+          container.appendChild(gridItem);
+        }
+      }
+    }
+
+    // Example usage: create an 8 x 8 grid when n % 2 === 0 (choose any even number)
+    const n = 16;
+    if (n % 2 === 0) {
+      generateGrid(n);
+    } else {
+      console.log("n is not even. Please provide an even number.");
+    }
+  </script>
+</body>
+
+</html>
