@@ -79,6 +79,13 @@
       const totalGapWidth = gapSize * (n - 1);
       const itemWidth = (containerWidth - totalGapWidth) / (n + 1);
       let opacity = 1;
+      const random = () => Math.floor(Math.random() * 256);
+      let r = random();
+      let tenthR = r / 10;
+      let g = random();
+      let tenthG = g / 10;
+      let b = random();
+      let tenthB = b / 10;
 
       for (let i = 0; i < n * n; i++) {
         const gridItem = document.createElement("div");
@@ -87,14 +94,10 @@
         gridItem.style.height = `${itemWidth}px`; // make square cells
 
         gridItem.addEventListener("mouseover", () => {
-
-          const random = () => Math.floor(Math.random() * 256);
-
-          gridItem.style.backgroundColor = `rgba(${random()}, ${random()}, ${random()}, ${opacity})`;
-          if (opacity > 0) {
-            opacity = Math.max(0, opacity - 0.1);
-          }
-          console.log(opacity);
+          gridItem.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+          r >= 0 ? r -= tenthR : 0;
+          g >= 0 ? g -= tenthG : 0;
+          b >= 0 ? b -= tenthB : 0;
 
         });
 
